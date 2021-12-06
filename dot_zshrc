@@ -1,0 +1,55 @@
+[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
+ZSH_DISABLE_COMPFIX="true"
+export ZSH=$HOME/.oh-my-zsh
+
+ZSH_THEME="robbyrussell"
+
+plugins=(git docker docker-compose tmux)
+
+fpath=(~/.zsh/completion $fpath)
+autoload -Uz compinit && compinit -i
+
+export PATH="$HOME/.rvm/gems/ruby-2.1.4/bin:$HOME/.rvm/gems/ruby-2.1.4@global/bin:/$HOME/.rvm/rubies/ruby-2.1.4/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/$HOME.rvm/bin:$HOME/Library/Android/sdk/platform-tools:/usr/local/sbin:$PATH"
+
+export HR_XML_PATH='../hr-xml'
+
+source $ZSH/oh-my-zsh.sh
+
+export GEM_PATH=$HOME/.rvm/gems/ruby-1.9.3-p551:$HOME/.rvm/gems/ruby-1.9.3-p551@global
+export GEM_HOME=$HOME/.rvm/gems/ruby-1.9.3-p551
+export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+
+export PATH="/opt/local/bin:/usr/local/bin/:$PATH" # Add RVM to PATH for scripting
+alias weather='curl wttr.in/Granada'
+alias v='nvim'
+export rvm_max_time_flag=20
+export PATH="/usr/local/opt/mysql@5.7/bin:$HOME/flutter/bin:$PATH"
+export PATH="$PATH":"$HOME/flutter/.pub-cache/bin"
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+export DEVISE_JWT_SECRET_KEY="41513f4df0f825acec0bae2087e7064c2c6da174d81632db7cce4fbd5d57245646a1021edd1c6ce298881a1c$"
+export SECRET_KEY_BASE="203e5c55b622288a5ac3d6e0a8ec1564d4377d22e331b7899178bff344ddc1ba7c50b92e31969b7399d43edc8e272a$"
+export AWS_ACCESS_KEY_ID="AKIAVGG6ZUQJSZ75W4SH"
+export AWS_SECRET_ACCESS_KEY="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"
+export AWS_REGION="eu-central-1"
+export AWS_BUCKET="ww-raasportal"
+export email_username="ww-automationraasportal@invokeinc.com"
+export email_password="4R14_password"
+#export dotnet_api="http://ec2-3-121-185-117.eu-central-1.compute.amazonaws.com"
+#export dotnet_api="http://10.220.40.181"
+export dotnet_api="10.220.40.181"
+#export BACKEND_URL="http://localhost:3001"
+export BACKEND_URL="http://10.220.20.117:8080"
+#export COMM_API_URL="http://localhost:3002"
+export COMM_API_URL="10.220.30.79"
+export MS_QUEUE_NAME="Queue1"
+#export COMM_API_URL="http://ec2-3-124-54-137.eu-central-1.compute.amazonaws.com:9090"
+
+neofetch
+
+#### FIG ENV VARIABLES ####
+[ -s ~/.fig/fig.sh ] && source ~/.fig/fig.sh
+#### END FIG ENV VARIABLES ####
+
+

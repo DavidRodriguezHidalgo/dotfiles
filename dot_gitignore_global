@@ -1,0 +1,16 @@
+.idea
+.DS_Store
+.nvmrc
+.DS_Store
+*.log
+tmp
+public/system
+public/ckeditor_assets
+tags 
+*.swp
+vendor/cache
+.vscode
+*#*
+*~
+.node-version
+.ruby-version

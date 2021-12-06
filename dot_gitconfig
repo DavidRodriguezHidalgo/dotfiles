@@ -1,0 +1,13 @@
+[user]
+	name = David Rodriguez
+	email = denzilrh90@gmail.com
+	username = DavidRodriguezHidalgo
+[core]
+	autocrlf = input
+	excludesfile = /Users/dro/.gitignore_global
+	editor = nvim
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
+[difftool]
+	prompt = false
