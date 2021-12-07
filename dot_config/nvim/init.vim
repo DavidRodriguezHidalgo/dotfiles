@@ -199,8 +199,8 @@ nmap <Leader>n :bp<CR>
 nmap <Leader>m :bn<CR>
 nmap <Leader>w :w<CR>
 nmap <Leader>q :q<CR>
-map <Leader>g :Neogit<cr>
-nmap <Leader>vim :e ~/.vimrc<cr>
+map <Leader>g :Neogit<CR>
+map <Leader>d :Explore<CR>
 " Find files using Telescope command-line sugar.
 nnoremap <leader>p :Telescope project<CR>
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
