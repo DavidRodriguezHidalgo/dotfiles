@@ -28,23 +28,6 @@ export PATH="$PATH":"$HOME/flutter/.pub-cache/bin"
 export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-export DEVISE_JWT_SECRET_KEY="41513f4df0f825acec0bae2087e7064c2c6da174d81632db7cce4fbd5d57245646a1021edd1c6ce298881a1c$"
-export SECRET_KEY_BASE="203e5c55b622288a5ac3d6e0a8ec1564d4377d22e331b7899178bff344ddc1ba7c50b92e31969b7399d43edc8e272a$"
-export AWS_ACCESS_KEY_ID="AKIAVGG6ZUQJSZ75W4SH"
-export AWS_SECRET_ACCESS_KEY="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"
-export AWS_REGION="eu-central-1"
-export AWS_BUCKET="ww-raasportal"
-export email_username="ww-automationraasportal@invokeinc.com"
-export email_password="4R14_password"
-#export dotnet_api="http://ec2-3-121-185-117.eu-central-1.compute.amazonaws.com"
-#export dotnet_api="http://10.220.40.181"
-export dotnet_api="10.220.40.181"
-#export BACKEND_URL="http://localhost:3001"
-export BACKEND_URL="http://10.220.20.117:8080"
-#export COMM_API_URL="http://localhost:3002"
-export COMM_API_URL="10.220.30.79"
-export MS_QUEUE_NAME="Queue1"
-#export COMM_API_URL="http://ec2-3-124-54-137.eu-central-1.compute.amazonaws.com:9090"
 
 neofetch
 
