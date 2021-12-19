@@ -34,8 +34,8 @@ Plug 'easymotion/vim-easymotion'
 Plug 'scrooloose/nerdtree'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-project.nvim'
-Plug 'romgrk/barbar.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
+Plug 'sbdchd/neoformat'
 " Use CTRL and hjkl to navigate in panes
 Plug 'christoomey/vim-tmux-navigator'
 
@@ -251,7 +251,7 @@ if !exists('g:airline_symbols')
       let g:airline_symbols = {}
     endif
 
-    let g:airline#extensions#tabline#enabled = 1
+    let g:airline#extensions#tabline#enabled = 0
     let g:airline#extensions#tabline#buffer_idx_mode = 1
     let g:airline#extensions#tabline#fnamemod = ':t'
     let g:airline#extensions#tabline#left_sep = ''

@@ -37,7 +37,6 @@ Plug 'easymotion/vim-easymotion'
 Plug 'scrooloose/nerdtree'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-project.nvim'
-Plug 'romgrk/barbar.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 " Use CTRL and hjkl to navigate in panes
 Plug 'christoomey/vim-tmux-navigator'
