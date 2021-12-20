@@ -36,6 +36,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-project.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'sbdchd/neoformat'
+Plug 'ThePrimeagen/harpoon'
 " Use CTRL and hjkl to navigate in panes
 Plug 'christoomey/vim-tmux-navigator'
 
@@ -199,10 +200,10 @@ nmap <Leader>s <Plug>(easymotion-s2)
 nmap <Leader>nt :NERDTreeFind<CR>
 nmap <Leader>t :Explore<CR>
 nmap <Leader>r :%s/foo/bar/gci
-nmap <Leader>m :bd<CR>
-nmap <Leader>, :bp<CR>
-nmap <Leader>. :bn<CR>
-nmap <Leader>- :BufOnly<CR>
+nmap <Leader>m :lua require("harpoon.ui").toggle_quick_menu()<CR>
+nmap <Leader>, :lua require("harpoon.ui").nav_prev()<CR>
+nmap <Leader>. :lua require("harpoon.ui").nav_next()<CR>
+nmap <Leader>- :lua require("harpoon.mark").add_file()<CR>
 nmap <Leader>w :w<CR>
 nmap <Leader>q :q<CR>
 map <Leader>g :Neogit<cr>
