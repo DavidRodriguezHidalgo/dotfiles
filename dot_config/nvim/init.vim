@@ -193,14 +193,20 @@ EOF
 " Use the space key as our leader.
 let mapleader=" "
 
+command! BufOnly execute '%bdelete|edit #|normal `"'
+
 nmap <Leader>s <Plug>(easymotion-s2)
 nmap <Leader>nt :NERDTreeFind<CR>
-nmap <Leader>n :bp<CR>
-nmap <Leader>m :bn<CR>
+nmap <Leader>t :Explore<CR>
+nmap <Leader>r :%s/foo/bar/gci
+nmap <Leader>m :bd<CR>
+nmap <Leader>, :bp<CR>
+nmap <Leader>. :bn<CR>
+nmap <Leader>- :BufOnly<CR>
 nmap <Leader>w :w<CR>
 nmap <Leader>q :q<CR>
-map <Leader>g :Neogit<CR>
-map <Leader>d :Explore<CR>
+map <Leader>g :Neogit<cr>
+nmap <Leader>vim :e ~/.vimrc<cr>
 " Find files using Telescope command-line sugar.
 nnoremap <leader>p :Telescope project<CR>
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
