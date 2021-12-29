@@ -28,7 +28,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
 Plug 'arcticicestudio/nord-vim'
 Plug 'drewtempelmeyer/palenight.vim'
-Plug 'EdenEast/nightfox.nvim'
+Plug 'folke/tokyonight.nvim'
+
 " IDE
 Plug 'easymotion/vim-easymotion'
 Plug 'scrooloose/nerdtree'
@@ -61,6 +62,7 @@ let g:airline#extensions#branch#enabled=1
 let g:airline_powerline_fonts = 1
 
 call plug#end()
+
 colorscheme gruvbox
 
 lua << EOF
