@@ -38,8 +38,7 @@ Plug 'nvim-telescope/telescope-project.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'sbdchd/neoformat'
 Plug 'ThePrimeagen/harpoon'
-" Use CTRL and hjkl to navigate in panes
-Plug 'christoomey/vim-tmux-navigator'
+Plug 'tveskag/nvim-blame-line'
 
 " Git
 Plug 'TimUntersberger/neogit'
@@ -64,6 +63,8 @@ let g:airline_powerline_fonts = 1
 call plug#end()
 
 colorscheme gruvbox
+
+autocmd BufEnter * EnableBlameLine
 
 lua << EOF
 
