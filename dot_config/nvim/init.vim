@@ -85,6 +85,9 @@ EOF
 
 lua << EOF
 require'lspconfig'.solargraph.setup{}
+require'lspconfig'.tsserver.setup{}
+require'lspconfig'.yamlls.setup{}
+
 
 local nvim_lsp = require('lspconfig')
 
