@@ -38,6 +38,7 @@ Plug 'nvim-telescope/telescope-project.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'sbdchd/neoformat'
 Plug 'ThePrimeagen/harpoon'
+" Use CTRL and hjkl to navigate in panes
 Plug 'tveskag/nvim-blame-line'
 
 " Git
@@ -84,11 +85,6 @@ require'nvim-web-devicons'.setup {
 EOF
 
 lua << EOF
-require'lspconfig'.solargraph.setup{}
-require'lspconfig'.tsserver.setup{}
-require'lspconfig'.yamlls.setup{}
-
-
 local nvim_lsp = require('lspconfig')
 
 -- Use an on_attach function to only map the following keys
@@ -108,11 +104,14 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', 'gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts) 
+  buf_set_keymap('n', 'gc', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'ge', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "solargraph" }
+local servers = { "solargraph", "tsserver" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -206,6 +205,7 @@ nmap <Leader>s <Plug>(easymotion-s2)
 nmap <Leader>nt :NERDTreeFind<CR>
 nmap <Leader>t :Explore<CR>
 nmap <Leader>r :%s/foo/bar/gci
+nmap <Leader>f :Neoformat<CR>
 nmap <Leader>m :lua require("harpoon.ui").toggle_quick_menu()<CR>
 nmap <Leader>, :lua require("harpoon.ui").nav_prev()<CR>
 nmap <Leader>. :lua require("harpoon.ui").nav_next()<CR>
@@ -220,6 +220,7 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>fc <cmd>Telescope current_buffer_fuzzy_find<cr>
 
 " Behave Vim: Yunk to the end of the line
 nnoremap Y y$
