@@ -173,6 +173,10 @@ nmap <Leader>- :lua require("harpoon.mark").add_file()<CR>
 nmap <Leader>w :w<CR>
 nmap <Leader>q :q<CR>
 map <Leader>g :Neogit<cr>
+" Fugitive Conflict Resolution
+nnoremap <leader>gd :Gvdiffsplit!<CR>
+nnoremap gdl :diffget //2<CR>
+nnoremap gdr :diffget //3<CR>
 " Find files using Telescope command-line sugar.
 nnoremap <leader>p :Telescope project<CR>
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
