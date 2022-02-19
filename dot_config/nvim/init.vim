@@ -70,18 +70,7 @@ autocmd BufEnter * EnableBlameLine
 lua << EOF
 
 require("telescope").load_extension('project')
-require'nvim-web-devicons'.setup {
-	override = {
-  zsh = {
-    icon = "",
-    color = "#428850",
-    name = "Zsh"
-  }
- };
- -- globally enable default icons (default to false)
- -- will get overriden by `get_icons` option
- default = true;
-}
+
 EOF
 
 lua << EOF
@@ -111,7 +100,8 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "solargraph", "tsserver", "gopls" }
+-- install npm i -g vscode-langservers-extracted@lates
+local servers = { "solargraph", "tsserver", "gopls", "yamlls", "cssls" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -137,13 +127,20 @@ require'compe'.setup {
   max_abbr_width = 100;
   max_kind_width = 100;
   max_menu_width = 100;
-  documentation = false;
+  documentation = {
+    border = { '', '' ,'', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
+    winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
+    max_width = 120,
+    min_width = 60,
+    max_height = math.floor(vim.o.lines * 0.3),
+    min_height = 1,
+  };
 
   source = {
     path = true;
     buffer = true;
     calc = true;
-    vsnip = true;
+    vsnip = false;
     nvim_lsp = true;
     nvim_lua = true;
     spell = true;
@@ -152,49 +149,12 @@ require'compe'.setup {
     treesitter = true;
   };
 }
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
-local check_back_space = function()
-    local col = vim.fn.col('.') - 1
-    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-        return true
-    else
-        return false
-    end
-end
-
--- Use (s-)tab to:
---- move to prev/next item in completion menuone
---- jump to prev/next snippet's placeholder
-_G.tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-n>"
-  elseif vim.fn.call("vsnip#available", {1}) == 1 then
-    return t "<Plug>(vsnip-expand-or-jump)"
-  elseif check_back_space() then
-    return t "<Tab>"
-  else
-    return vim.fn['compe#complete']()
-  end
-end
-_G.s_tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-p>"
-  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
-    return t "<Plug>(vsnip-jump-prev)"
-  else
-    -- If <S-Tab> is not working in your terminal, change it to <C-h>
-    return t "<S-Tab>"
-  end
-end
-
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 EOF
+inoremap <silent><expr> <C-Space> compe#complete()
+inoremap <silent><expr> <CR> compe#confirm('<CR>')
+inoremap <silent><expr> <C-e> compe#close('<C-e>')
+inoremap <silent><expr> <C-f> compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d> compe#scroll({ 'delta': -4 })
 
 " Use the space key as our leader.
 let mapleader=" "
@@ -213,7 +173,6 @@ nmap <Leader>- :lua require("harpoon.mark").add_file()<CR>
 nmap <Leader>w :w<CR>
 nmap <Leader>q :q<CR>
 map <Leader>g :Neogit<cr>
-nmap <Leader>vim :e ~/.vimrc<cr>
 " Find files using Telescope command-line sugar.
 nnoremap <leader>p :Telescope project<CR>
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
@@ -248,17 +207,6 @@ inoremap <C-k> <esc>: .-2<CR>==
 nnoremap <leader>k :m .-2<CR>==
 nnoremap <leader>j :m .+1<CR>==
 
-" Trigger completion with <Tab>
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ completion#trigger_completion()
-
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
 let NERDTreeMapOpenInTab='v'
 
 if !exists('g:airline_symbols')
@@ -275,5 +223,5 @@ if !exists('g:airline_symbols')
     let g:airline#extensions#tabline#formatter = 'default'
 
     " Theme ( github.com/vim-airline/vim-airline-themes
-    let g:airline_theme= 'minimalist'
+    let g:airline_theme= 'bubblegum'
 
