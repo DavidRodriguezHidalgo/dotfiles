@@ -1,7 +1,7 @@
 set number
 set mouse=a
 set numberwidth=1
-set clipboard=unnamed
+set clipboard=unnamed 
 set showcmd
 set ruler
 set encoding=utf-8
@@ -20,7 +20,12 @@ set shiftwidth=2
 set expandtab
 set smartindent
 set termguicolors
-set completeopt=menuone,noselect
+"set completeopt=menuone,noselect
+set completeopt=noinsert,menuone,noselect " Modifies the auto-complete menu to behave more like an IDE.
+set cursorline " Highlights the current line in the editor
+
+set cc=120 " Show at 120 column a border for good code style
+set ttyfast " Speed up scrolling in Vim
 
 call plug#begin('~/.vim/plugged')
 
@@ -40,6 +45,7 @@ Plug 'sbdchd/neoformat'
 Plug 'ThePrimeagen/harpoon'
 " Use CTRL and hjkl to navigate in panes
 Plug 'tveskag/nvim-blame-line'
+Plug 'tpope/vim-commentary'
 
 " Git
 Plug 'TimUntersberger/neogit'
@@ -49,6 +55,7 @@ Plug 'airblade/vim-gitgutter'
 " Vim airline (bottom bar)
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'tpope/vim-rails'
 Plug 'tpope/vim-fugitive'
 
 Plug 'neovim/nvim-lspconfig'
