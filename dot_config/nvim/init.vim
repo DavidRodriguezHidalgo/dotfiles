@@ -37,14 +37,12 @@ Plug 'folke/tokyonight.nvim'
 
 " IDE
 Plug 'easymotion/vim-easymotion'
-Plug 'scrooloose/nerdtree'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-project.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'sbdchd/neoformat'
 Plug 'ThePrimeagen/harpoon'
-" Use CTRL and hjkl to navigate in panes
-Plug 'tveskag/nvim-blame-line'
+"Plug 'tveskag/nvim-blame-line'
 Plug 'tpope/vim-commentary'
 
 " Git
@@ -72,7 +70,7 @@ call plug#end()
 
 colorscheme gruvbox
 
-autocmd BufEnter * EnableBlameLine
+"autocmd BufEnter * EnableBlameLine
 
 lua << EOF
 
@@ -108,7 +106,7 @@ end
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
 -- install npm i -g vscode-langservers-extracted@lates
-local servers = { "solargraph", "tsserver", "gopls", "yamlls", "cssls" }
+local servers = { "solargraph", "tsserver", "gopls" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -169,7 +167,6 @@ let mapleader=" "
 command! BufOnly execute '%bdelete|edit #|normal `"'
 
 nmap <Leader>s <Plug>(easymotion-s2)
-nmap <Leader>nt :NERDTreeFind<CR>
 nmap <Leader>t :Explore<CR>
 nmap <Leader>r :%s/foo/bar/gci
 nmap <Leader>f :Neoformat<CR>
