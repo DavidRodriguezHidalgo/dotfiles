@@ -75,6 +75,8 @@ call plug#end()
 colorscheme gruvbox
 
 "autocmd BufEnter * EnableBlameLine
+" auto close nvim-tree when it's the last tab
+autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
 
 lua << EOF
 
@@ -329,7 +331,7 @@ command! BufOnly execute '%bdelete|edit #|normal `"'
 
 nmap <Leader>s <Plug>(easymotion-s2)
 nmap <Leader>tt :NvimTreeToggle<CR>
-nmap <Leader>t :Explore<CR>
+nmap <Leader>t :NvimTreeFindFile<CR>
 nmap <Leader>r :%s/foo/bar/gci
 nmap <Leader>f :Neoformat<CR>
 nmap <Leader>m :lua require("harpoon.ui").toggle_quick_menu()<CR>
