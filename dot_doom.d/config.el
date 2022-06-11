@@ -21,10 +21,19 @@
 (setq ns-right-alternate-modifier nil)
 (set-frame-font "Iosevka" nil t)
 
+;; Keymaps
+  (define-prefix-command 'z-map)
+  (map! :leader :desc "Custom keybindings" "z" 'z-map) ;; was C-1
+  (define-key z-map (kbd "f") 'format-all-buffer)
+
 ;; Org-mode stuff
 (after! org-bullets
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+;; Projectile
+(setq
+ projectile-project-search-path '("~/projects/")
+ )
 
 ;; Ruby
 (add-to-list 'auto-mode-alist
@@ -36,3 +45,12 @@
 
 ;; React
 (add-hook 'rjsx-mode-hook 'lsp)
+
+;; Git
+(setq magit-status-margin
+  '(t "%Y-%m-%d %H:%M " magit-log-margin-width t 18))
+
+  (after! git-gutter
+  :init
+  (global-git-gutter-mode +1))
+  (global-set-key (kbd "M-g M-g") 'hydra-git-gutter/body)
