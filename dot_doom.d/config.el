@@ -46,6 +46,11 @@
 ;; React
 (add-hook 'rjsx-mode-hook 'lsp)
 
+;; Go
+(autoload 'go-mode "go-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+(add-hook 'go-mode-hook 'lsp)
+
 ;; Git
 (setq magit-status-margin
   '(t "%Y-%m-%d %H:%M " magit-log-margin-width t 18))
