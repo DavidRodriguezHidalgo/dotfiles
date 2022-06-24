@@ -50,3 +50,6 @@
 ;(unpin! t)
 (package! gruvbox-theme)
 (package! org-bullets)
+(package! git-gutter)
+(package! try)
+(package! format-all)
