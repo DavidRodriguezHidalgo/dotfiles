@@ -3,8 +3,6 @@ local nmap = require("denzil.keymap").nmap
 local inoremap = require("denzil.keymap").inoremap
 local vnoremap = require("denzil.keymap").vnoremap
 
-local harpoon = require("harpoon.ui")
-
 inoremap("<silent><expr> <C-Space>", "compe#complete()")
 inoremap("<silent><expr> <CR>", "compe#confirm('<CR>')")
 inoremap("<silent><expr> <C-e>", "compe#close('<C-e>')")
