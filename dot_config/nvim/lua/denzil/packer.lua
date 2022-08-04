@@ -30,8 +30,7 @@ return require('packer').startup(function(use)
   use 'airblade/vim-gitgutter'
 
   -- Vim airline (bottom bar)
-  use 'vim-airline/vim-airline'
-  use 'vim-airline/vim-airline-themes'
+   use("nvim-lualine/lualine.nvim")
   use 'tpope/vim-rails'
   use 'tpope/vim-fugitive'
 
