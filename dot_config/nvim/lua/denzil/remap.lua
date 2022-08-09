@@ -3,10 +3,6 @@ local nmap = require("denzil.keymap").nmap
 local inoremap = require("denzil.keymap").inoremap
 local vnoremap = require("denzil.keymap").vnoremap
 
-inoremap("<silent><expr> <C-Space>", "compe#complete()")
-inoremap("<silent><expr> <CR>", "compe#confirm('<CR>')")
-inoremap("<silent><expr> <C-e>", "compe#close('<C-e>')")
-
 nmap("<leader>s", "<Plug>(easymotion-s2)")
 nmap("<leader>tt", ":NvimTreeToggle<CR>")
 nmap("<Leader>t", ":NvimTreeFindFile<CR>")
@@ -17,6 +13,7 @@ nmap("<Leader>q", ":q<CR>")
 nmap("<Leader>g", ":Neogit<cr>")
 
 vim.cmd([[
+inoremap <silent><expr> <C-Space> compe#complete()
 nmap <Leader>m :lua require("harpoon.ui").toggle_quick_menu()<CR>
 nmap <Leader>, :lua require("harpoon.ui").nav_prev()<CR>
 nmap <Leader>. :lua require("harpoon.ui").nav_next()<CR>
@@ -36,6 +33,11 @@ nnoremap("<leader>fc", "<cmd>Telescope current_buffer_fuzzy_find<cr>")
 
 --Behave Vim: Yunk to the end of the line
 nnoremap("Y", "y$")
+nnoremap("x", '"_x')
+nnoremap("d", '"_d')
+-- delete word backwards
+nnoremap("dw", 'vb"_d')
+nnoremap("<C-a>", "gg<S-v>G")
 
 --Keeping it centered
 nnoremap("n", "nzzzv")
