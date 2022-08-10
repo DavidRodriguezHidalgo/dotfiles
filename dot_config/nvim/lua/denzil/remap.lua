@@ -30,7 +30,8 @@ nnoremap("<leader>fg", "<cmd>Telescope live_grep<cr>")
 nnoremap("<leader>fb", "<cmd>Telescope buffers<cr>")
 nnoremap("<leader>fh", "<cmd>Telescope help_tags<cr>")
 nnoremap("<leader>fc", "<cmd>Telescope current_buffer_fuzzy_find<cr>")
-
+nnoremap("gb", "<cmd>:BufferLinePick<CR>")
+nnoremap("bd", "<cmd>:BufferLineCloseLeft<CR>:BufferLineCloseRight<CR>")
 --Behave Vim: Yunk to the end of the line
 nnoremap("Y", "y$")
 nnoremap("x", '"_x')
