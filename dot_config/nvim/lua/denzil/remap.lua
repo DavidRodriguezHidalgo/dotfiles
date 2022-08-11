@@ -20,9 +20,6 @@ nmap <Leader>. :lua require("harpoon.ui").nav_next()<CR>
 nmap <Leader>- :lua require("harpoon.mark").add_file()<CR>
 ]])
 
-nnoremap("<leader>gd", ":Gvdiffsplit!<CR>")
-nnoremap("gdl", ":diffget //2<CR>")
-nnoremap("gdr", ":diffget //3<CR>")
 --Find files using Telescope command-line sugar.
 nnoremap("<leader>p", ":Telescope project<CR>")
 nnoremap("<leader>ff", "<cmd>Telescope find_files<cr>")
@@ -50,6 +47,25 @@ inoremap(",", ",<c-g>u")
 inoremap(".", ".<c-g>u")
 inoremap("!", "!<c-g>u")
 inoremap("?", "?<c-g>u")
+
+-- New tab
+nnoremap("te", "<cmd>:tabedit<CR>")
+
+-- Split window
+nnoremap("ss", "<cmd>:split<Return><C-w>w<CR>")
+nnoremap("sv", "<cmd>:vsplit<Return><C-w>w<CR>")
+
+-- Move window
+nnoremap("sh", "<C-w>h")
+nnoremap("sk", "<C-w>k")
+nnoremap("sj", "<C-w>j")
+nnoremap("sl", "<C-w>l")
+
+-- Resize window
+nnoremap("<C-w><left>", "<C-w><")
+nnoremap("<C-w><right>", "<C-w>>")
+nnoremap("<C-w><up>", "<C-w>+")
+nnoremap("<C-w><down>", "<C-w>-")
 
 vim.cmd([[
 " Jumplist mutations
