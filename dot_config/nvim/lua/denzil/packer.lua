@@ -12,6 +12,7 @@ return require('packer').startup(function(use)
   -- IDE
   use 'easymotion/vim-easymotion'
   use 'nvim-telescope/telescope.nvim'
+  use { "nvim-telescope/telescope-file-browser.nvim" }
   use 'nvim-telescope/telescope-project.nvim'
   use 'kyazdani42/nvim-web-devicons'
   use 'sbdchd/neoformat'
@@ -19,7 +20,6 @@ return require('packer').startup(function(use)
   use 'akinsho/bufferline.nvim'
   -- use 'tveskag/nvim-blame-line'
   use 'tpope/vim-commentary'
-  use 'kyazdani42/nvim-tree.lua'
   use 'ray-x/lsp_signature.nvim'
   use 'onsails/lspkind-nvim'
   use 'nvim-treesitter/nvim-treesitter'
