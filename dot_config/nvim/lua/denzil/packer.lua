@@ -35,6 +35,7 @@ return require('packer').startup(function(use)
   use 'tpope/vim-fugitive'
 
   use 'neovim/nvim-lspconfig'
+  use 'glepnir/lspsaga.nvim'
   use 'williamboman/nvim-lsp-installer'
   use 'slim-template/vim-slim'
   use 'hrsh7th/nvim-cmp'
