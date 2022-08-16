@@ -8,7 +8,6 @@ nmap("<Leader>t", ':lua require("telescope").extensions.file_browser.file_browse
 nmap("<Leader>f", ":Neoformat<CR>")
 nmap("<Leader>w", ":w<CR>")
 nmap("<Leader>q", ":q<CR>")
-nmap("<Leader>g", ":Neogit<cr>")
 
 vim.cmd([[
 inoremap <silent><expr> <C-Space> compe#complete()

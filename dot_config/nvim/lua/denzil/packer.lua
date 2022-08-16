@@ -23,11 +23,7 @@ return require('packer').startup(function(use)
   use 'ray-x/lsp_signature.nvim'
   use 'onsails/lspkind-nvim'
   use 'nvim-treesitter/nvim-treesitter'
-
-  -- Git
-  use 'TimUntersberger/neogit'
   use 'nvim-lua/plenary.nvim'
-  use 'airblade/vim-gitgutter'
 
   -- Vim airline (bottom bar)
    use("nvim-lualine/lualine.nvim")
