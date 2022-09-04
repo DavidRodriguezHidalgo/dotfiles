@@ -16,6 +16,7 @@ return require('packer').startup(function(use)
   use 'nvim-telescope/telescope-project.nvim'
   use 'kyazdani42/nvim-web-devicons'
   use 'sbdchd/neoformat'
+  use 'windwp/nvim-autopairs'
   use 'ThePrimeagen/harpoon'
   use 'akinsho/bufferline.nvim'
   -- use 'tveskag/nvim-blame-line'
