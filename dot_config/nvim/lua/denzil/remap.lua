@@ -28,11 +28,6 @@ nnoremap("gb", "<cmd>:BufferLinePick<CR>")
 nnoremap("bd", "<cmd>:BufferLineCloseLeft<CR>:BufferLineCloseRight<CR>")
 --Behave Vim: Yunk to the end of the line
 nnoremap("Y", "y$")
-nnoremap("x", '"_x')
-nnoremap("d", '"_d')
--- delete word backwards
-nnoremap("dw", 'vb"_d')
-nnoremap("<C-a>", "gg<S-v>G")
 
 --Keeping it centered
 nnoremap("n", "nzzzv")
