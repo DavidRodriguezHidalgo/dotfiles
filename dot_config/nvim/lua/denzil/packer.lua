@@ -8,9 +8,9 @@ return require('packer').startup(function(use)
   use 'arcticicestudio/nord-vim'
   use 'drewtempelmeyer/palenight.vim'
   use 'folke/tokyonight.nvim'
+  use { "catppuccin/nvim", as = "catppuccin" }
 
   -- IDE
-  use 'easymotion/vim-easymotion'
   use 'nvim-telescope/telescope.nvim'
   use { "nvim-telescope/telescope-file-browser.nvim" }
   use 'nvim-telescope/telescope-project.nvim'

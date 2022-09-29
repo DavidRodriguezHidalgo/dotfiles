@@ -3,7 +3,6 @@ local nmap = require("denzil.keymap").nmap
 local inoremap = require("denzil.keymap").inoremap
 local vnoremap = require("denzil.keymap").vnoremap
 
-nmap("<leader>s", "<Plug>(easymotion-s2)")
 nmap("<Leader>t", ':lua require("telescope").extensions.file_browser.file_browser()<cr>')
 nmap("<Leader>f", ":Neoformat<CR>")
 nmap("<Leader>w", ":w<CR>")
