@@ -19,6 +19,7 @@ return require('packer').startup(function(use)
   use 'windwp/nvim-autopairs'
   use 'ThePrimeagen/harpoon'
   use 'akinsho/bufferline.nvim'
+  use 'akinsho/toggleterm.nvim'
   -- use 'tveskag/nvim-blame-line'
   use 'tpope/vim-commentary'
   use 'ray-x/lsp_signature.nvim'
