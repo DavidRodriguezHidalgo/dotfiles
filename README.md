@@ -9,7 +9,7 @@ Install chezmoi
 
 `git clone https://Denzil90@bitbucket.org/Denzil90/dotfiles.git`  
 `cd ~/dotfiles`  
-`rake install`
+`./install.sh`
 
 Vim plugins are managed through vundle. You'll need to install vundle to get them.
 
