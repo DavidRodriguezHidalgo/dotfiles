@@ -20,12 +20,20 @@ return require('packer').startup(function(use)
   use 'ThePrimeagen/harpoon'
   use 'akinsho/bufferline.nvim'
   use 'akinsho/toggleterm.nvim'
+
+  use {
+    'nvim-tree/nvim-tree.lua',
+    requires = {
+      'nvim-tree/nvim-web-devicons', 
+    },
+  }
   -- use 'tveskag/nvim-blame-line'
   use 'tpope/vim-commentary'
   use 'ray-x/lsp_signature.nvim'
   use 'onsails/lspkind-nvim'
   use 'nvim-treesitter/nvim-treesitter'
   use 'nvim-lua/plenary.nvim'
+  use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' }
 
   -- Vim airline (bottom bar)
    use("nvim-lualine/lualine.nvim")
@@ -33,6 +41,8 @@ return require('packer').startup(function(use)
   use 'tpope/vim-fugitive'
 
   use 'neovim/nvim-lspconfig'
+  use 'williamboman/mason.nvim'
+  use 'williamboman/mason-lspconfig.nvim'
   use 'glepnir/lspsaga.nvim'
   use 'williamboman/nvim-lsp-installer'
   use 'slim-template/vim-slim'

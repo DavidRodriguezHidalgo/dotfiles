@@ -3,7 +3,8 @@ local nmap = require("denzil.keymap").nmap
 local inoremap = require("denzil.keymap").inoremap
 local vnoremap = require("denzil.keymap").vnoremap
 
-nmap("<Leader>t", ':lua require("telescope").extensions.file_browser.file_browser()<cr>')
+nnoremap("<leader>t", ":NvimTreeFindFile <CR>")
+nnoremap("<leader>tt", ":NvimTreeToggle <CR>")
 nmap("<Leader>f", ":Neoformat<CR>")
 nmap("<Leader>w", ":w<CR>")
 nmap("<Leader>q", ":q<CR>")
@@ -18,6 +19,7 @@ nmap <Leader>- :lua require("harpoon.mark").add_file()<CR>
 
 --Find files using Telescope command-line sugar.
 nnoremap("<leader>p", ":Telescope project<CR>")
+nnoremap("<leader>g", ":Neogit <CR>")
 nnoremap("<leader>ff", "<cmd>Telescope find_files<cr>")
 nnoremap("<leader>fg", "<cmd>Telescope live_grep<cr>")
 nnoremap("<leader>fb", "<cmd>Telescope buffers<cr>")

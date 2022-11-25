@@ -48,6 +48,8 @@ require('lspkind').init({
     },
 })
 
+require("mason").setup()
+require("mason-lspconfig").setup()
 local nvim_lsp = require('lspconfig')
 
 -- Use an on_attach function to only map the following keys
@@ -75,7 +77,7 @@ end
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
 -- install npm i -g vscode-langservers-extracted@lates
-local servers = { "solargraph", "tsserver", "gopls" }
+local servers = { "solargraph", "tsserver", "gopls", "sumneko_lua" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
