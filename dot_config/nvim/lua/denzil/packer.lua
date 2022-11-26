@@ -15,7 +15,6 @@ return require('packer').startup(function(use)
   use { "nvim-telescope/telescope-file-browser.nvim" }
   use 'nvim-telescope/telescope-project.nvim'
   use 'kyazdani42/nvim-web-devicons'
-  use 'sbdchd/neoformat'
   use 'windwp/nvim-autopairs'
   use 'ThePrimeagen/harpoon'
   use 'akinsho/bufferline.nvim'
@@ -24,7 +23,7 @@ return require('packer').startup(function(use)
   use {
     'nvim-tree/nvim-tree.lua',
     requires = {
-      'nvim-tree/nvim-web-devicons', 
+      'nvim-tree/nvim-web-devicons',
     },
   }
   -- use 'tveskag/nvim-blame-line'
@@ -36,10 +35,16 @@ return require('packer').startup(function(use)
   use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' }
 
   -- Vim airline (bottom bar)
-   use("nvim-lualine/lualine.nvim")
+  use("nvim-lualine/lualine.nvim")
   use 'tpope/vim-rails'
   use 'tpope/vim-fugitive'
 
+  -- LSP addons
+  use({ "jose-elias-alvarez/nvim-lsp-ts-utils" })
+  use({ "jose-elias-alvarez/null-ls.nvim" })
+
+  -- Prettier
+  use('MunifTanjim/prettier.nvim')
   use 'neovim/nvim-lspconfig'
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
