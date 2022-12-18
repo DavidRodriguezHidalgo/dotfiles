@@ -18,7 +18,6 @@ return require('packer').startup(function(use)
   use 'windwp/nvim-autopairs'
   use 'ThePrimeagen/harpoon'
   use 'akinsho/bufferline.nvim'
-  use 'akinsho/toggleterm.nvim'
 
   use {
     'nvim-tree/nvim-tree.lua',
@@ -36,8 +35,6 @@ return require('packer').startup(function(use)
 
   -- Vim airline (bottom bar)
   use("nvim-lualine/lualine.nvim")
-  use 'tpope/vim-rails'
-  use 'tpope/vim-fugitive'
 
   -- LSP addons
   use({ "jose-elias-alvarez/nvim-lsp-ts-utils" })
