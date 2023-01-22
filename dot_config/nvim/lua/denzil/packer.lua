@@ -18,7 +18,7 @@ return require('packer').startup(function(use)
   use 'windwp/nvim-autopairs'
   use 'ThePrimeagen/harpoon'
   use 'akinsho/bufferline.nvim'
-
+  use 'Exafunction/codeium.vim'
   use {
     'nvim-tree/nvim-tree.lua',
     requires = {
