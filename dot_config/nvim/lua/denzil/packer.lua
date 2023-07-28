@@ -45,7 +45,6 @@ return require('packer').startup(function(use)
   use 'neovim/nvim-lspconfig'
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
-  use 'glepnir/lspsaga.nvim'
   use 'williamboman/nvim-lsp-installer'
   use 'slim-template/vim-slim'
   use 'hrsh7th/nvim-cmp'
