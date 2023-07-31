@@ -51,4 +51,5 @@ return require('packer').startup(function(use)
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-buffer'
   use 'folke/which-key.nvim'
+  use 'Shatur/neovim-session-manager'
 end)

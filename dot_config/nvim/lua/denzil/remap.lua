@@ -5,7 +5,6 @@ local vnoremap = require("denzil.keymap").vnoremap
 
 nnoremap("<leader>t", ":NvimTreeFindFile <CR>")
 nnoremap("<leader>tt", ":NvimTreeToggle <CR>")
-nmap("<Leader>f", ":Neoformat<CR>")
 nmap("<Leader>w", ":w<CR>")
 nmap("<Leader>q", ":q<CR>")
 
