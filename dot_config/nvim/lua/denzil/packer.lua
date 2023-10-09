@@ -17,7 +17,8 @@ return require('packer').startup(function(use)
   use 'kyazdani42/nvim-web-devicons'
   use 'windwp/nvim-autopairs'
   use 'ThePrimeagen/harpoon'
-  use 'akinsho/bufferline.nvim'
+  use 'tpope/vim-fugitive'
+  -- use 'akinsho/bufferline.nvim'
   use 'Exafunction/codeium.vim'
   use {
     'nvim-tree/nvim-tree.lua',
@@ -31,7 +32,7 @@ return require('packer').startup(function(use)
   use 'onsails/lspkind-nvim'
   use 'nvim-treesitter/nvim-treesitter'
   use 'nvim-lua/plenary.nvim'
-  use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' }
+  use { 'NeogitOrg/neogit', requires = 'nvim-lua/plenary.nvim' }
 
   -- Vim airline (bottom bar)
   use("nvim-lualine/lualine.nvim")
