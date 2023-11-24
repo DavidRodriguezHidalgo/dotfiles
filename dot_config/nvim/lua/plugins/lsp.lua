@@ -11,6 +11,8 @@ return {
         "shfmt",
         "typescript-language-server",
         "css-lsp",
+        "rome",
+        "sorbet",
         "solargraph",
         "rubocop",
       })
