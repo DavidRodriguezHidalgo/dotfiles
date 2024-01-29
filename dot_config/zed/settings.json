@@ -13,13 +13,13 @@
     "metrics": false
   },
   "tab_size": 2,
-  "ui_font_size": 14,
-  "buffer_font_size": 13,
+  "ui_font_size": 15,
+  "buffer_font_size": 14,
   "buffer_font_family": "MonoLisa",
   "buffer_font_features": {
     "calt": true,
     "zero": true,
-    "ss02": true
+    "ss01": true
   },
   "autosave": "on_window_change",
   "language_overrides": {
