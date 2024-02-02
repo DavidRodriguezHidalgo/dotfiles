@@ -22,16 +22,6 @@
     "ss01": true
   },
   "autosave": "on_window_change",
-  "language_overrides": {
-    "Ruby": {
-      "format_on_save": {
-        "external": {
-          "command": "stree",
-          "arguments": ["format", "{buffer_path}"]
-        }
-      }
-    }
-  },
   "journal": {
     "path": "~",
     "hour_format": "hour24"
