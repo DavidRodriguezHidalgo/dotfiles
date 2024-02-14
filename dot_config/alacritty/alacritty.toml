@@ -1,0 +1,34 @@
+import = [
+  "~/.config/alacritty/catppuccin-mocha.toml"
+]
+
+[env]
+TERM = "xterm-256color"
+
+[window]
+decorations = "Full"
+startup_mode = "Windowed"
+
+[font]
+size = 14.0
+
+[font.bold]
+family = "Monolisa"
+style = "Bold"
+
+[font.glyph_offset]
+x = 0
+y = 0
+
+[font.italic]
+family = "Monolisa"
+style = "Regular Italic"
+
+[font.normal]
+family = "Monolisa"
+style = "Regular"
+
+[font.offset]
+x = 0
+y = 0
+
