@@ -4,29 +4,61 @@ export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="robbyrussell"
 
-plugins=(git docker docker-compose tmux)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-completions)
+export EDITOR=nvim
+export VISUAL=$EDITOR
 
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
 
-export PATH="$HOME/.rvm/gems/ruby-2.1.4/bin:$HOME/.rvm/gems/ruby-2.1.4@global/bin:/$HOME/.rvm/rubies/ruby-2.1.4/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/$HOME.rvm/bin:$HOME/Library/Android/sdk/platform-tools:/usr/local/sbin:$PATH"
+export PATH="usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/Library/Android/sdk/platform-tools:/usr/local/sbin:$PATH"
 
 export HR_XML_PATH='../hr-xml'
 
 source $ZSH/oh-my-zsh.sh
 
-export GEM_PATH=$HOME/.rvm/gems/ruby-1.9.3-p551:$HOME/.rvm/gems/ruby-1.9.3-p551@global
-export GEM_HOME=$HOME/.rvm/gems/ruby-1.9.3-p551
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
-export PATH="/opt/local/bin:/usr/local/bin/:$HOME/.emacs.d/bin:$PATH" # Add RVM to PATH for scripting
+export PATH="/opt/local/bin:/usr/local/bin/:$PATH"
 alias weather='curl wttr.in/Granada'
 alias v='nvim'
-export rvm_max_time_flag=20
+alias reload='source ~/.zshrc'
+alias fuzzy_find=fzf --bind 'enter:become(nvim {})'
 export PATH="/usr/local/opt/mysql@5.7/bin:$HOME/flutter/bin:$PATH"
 export PATH="$PATH":"$HOME/flutter/.pub-cache/bin:/usr/local/Cellar/gopls"
 export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-colorscript -r
+eval "$(direnv hook zsh)"
 
+export PATH="$PATH":"$HOME/projects/factorial/devenv/cli/bin"
+# Created by `pipx` on 2024-02-13 08:13:05
+export PATH="$PATH:/Users/david/.local/bin"
+export DENO_INSTALL="/Users/david/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
+
+prune_local_branches () {
+  git remote prune origin
+  git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -d
+}
+
+rbpretty () {
+  bundle exec rbprettier --write $(git diff --name-only --diff-filter=d main "*.rb" | sed 's/backend\///')
+}
+
+jspretty () {
+  npx prettier --write $(git diff --name-only --diff-filter=d main "*.tsx" "*.ts" | sed 's/frontend\///')
+}
+
+rubo () {
+  bundle exec rubocop -A $(git diff --name-only --diff-filter=d main "*.rb" | sed 's/backend\///')
+}
+
+gitprune () {
+  git gc --prune=now
+  git remote prune origin
+}
+
+eval "$(rbenv init -)"
+eval "$(starship init zsh)"
+colorscript -r
