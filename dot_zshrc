@@ -9,14 +9,13 @@ plugins=(git docker docker-compose tmux)
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
 
-export PATH="$HOME/.rvm/gems/ruby-2.1.4/bin:$HOME/.rvm/gems/ruby-2.1.4@global/bin:/$HOME/.rvm/rubies/ruby-2.1.4/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/$HOME.rvm/bin:$HOME/Library/Android/sdk/platform-tools:/usr/local/sbin:$PATH"
-
-export HR_XML_PATH='../hr-xml'
+export PATH="$HOME/.rvm/gems/ruby-3.3.5/bin:$HOME/.rvm/gems/ruby-3.3.5@global/bin:/$HOME/.rvm/rubies/ruby-3.3.5/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/$HOME.rvm/bin:$HOME/Library/Android/sdk/platform-tools:/usr/local/sbin:$PATH"
+export EDITOR='nvim'
 
 source $ZSH/oh-my-zsh.sh
 
-export GEM_PATH=$HOME/.rvm/gems/ruby-1.9.3-p551:$HOME/.rvm/gems/ruby-1.9.3-p551@global
-export GEM_HOME=$HOME/.rvm/gems/ruby-1.9.3-p551
+export GEM_PATH=$HOME/.rvm/gems/ruby-3.3.5:$HOME/.rvm/gems/ruby-3.3.5@global
+export GEM_HOME=$HOME/.rvm/gems/ruby-3.3.5
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 export PATH="/opt/local/bin:/usr/local/bin/:$HOME/.emacs.d/bin:$PATH" # Add RVM to PATH for scripting
@@ -28,5 +27,21 @@ export PATH="$PATH":"$HOME/flutter/.pub-cache/bin:/usr/local/Cellar/gopls"
 export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-colorscript -r
 
+export PATH="/opt/homebrew/opt/mysql@8.0/bin:$PATH"
+
+### SET FZF DEFAULTS
+export FZF_DEFAULT_OPTS="--layout=reverse --exact --border=bold --border=rounded --margin=3% --color=dark"
+
+# pnpm
+export PNPM_HOME="/Users/david/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+export PATH="$PATH":"$HOME/.config/emacs/bin"
+
+alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
+source <(fzf --zsh)

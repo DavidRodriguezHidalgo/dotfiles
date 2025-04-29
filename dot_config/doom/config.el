@@ -1,0 +1,47 @@
+(setq doom-theme 'catppuccin)
+(setq doom-font "Monolisa:pixelsize=16")
+(setq display-line-numbers-type t)
+(setq org-directory "~/org/")
+(setq display-line-numbers-type nil)
+(setq auto-save-default t)
+(setq confirm-kill-emacs nil)
+;; enable []{} and not triggering M-whatever
+(setq mac-option-modifier nil
+      mac-command-modifier 'meta
+      x-select-enable-clipboard t)
+(let ((alternatives '("doom-emacs-color.png"
+                      "doom-emacs-flugo-slant_out_purple-small.png")))
+  (setq fancy-splash-image
+        (concat doom-private-dir "splash/"
+                (nth (random (length alternatives)) alternatives))))
+(setq initial-frame-alist '((top . 1) (left . 1) (width . 114) (height . 32)))
+
+;; Performance optimizations
+(setq gc-cons-threshold (* 256 1024 1024))
+(setq read-process-output-max (* 4 1024 1024))
+(setq comp-deferred-compilation t)
+(setq comp-async-jobs-number 8)
+
+;; Garbage collector optimization
+(setq gcmh-idle-delay 5)
+(setq gcmh-high-cons-threshold (* 1024 1024 1024))
+
+;; Version control optimization
+(setq vc-handled-backends '(Git))
+
+;; Fix x11 issues
+(setq x-no-window-manager t)
+(setq frame-inhibit-implied-resize t)
+(setq focus-follows-mouse nil)
+(setq which-key-idle-delay 0.2)
+
+(setq
+ projectile-project-search-path '("~/projects/")
+ )
+
+(after! elfeed
+  (setq elfeed-search-filter "@1-month-ago +unread"))
+(setq elfeed-feeds
+      '("https://handledeck.com/feed/" "https://www.jorgemanrubia.com/feed.xml" "https://funcall.blogspot.com/feeds/posts/default" "https://news.ycombinator.com/rss" "http://planet.emacslife.com/atom.xml" "https://www.joshwcomeau.com/rss.xml" "https://overreacted.io/rss.xml" "http://feeds.feedburner.com/CestLaZ" "http://sachachua.com/wp/category/emacs/feed/"))
+
+(add-hook! 'elfeed-search-mode-hook #'elfeed-update)
