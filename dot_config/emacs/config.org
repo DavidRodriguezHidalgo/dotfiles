@@ -1,0 +1,700 @@
+#+TITLE: Emacs Configuration
+#+AUTHOR: David Rodriguez
+#+PROPERTY: header-args:emacs-lisp :tangle yes
+
+This is a literate Emacs configuration. The actual elisp is tangled from this
+file by =org-babel-load-file= in =init.el=. Edit this file, and Emacs will
+automatically tangle and load it on startup.
+
+* Sensible Defaults
+
+Strip the UI down to essentials -- no menu bar, no tool bar, no scroll bar, no
+splash screen.
+
+#+begin_src emacs-lisp
+  (menu-bar-mode -1)
+  (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+  (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+
+  (setq inhibit-startup-screen t
+        initial-scratch-message nil)
+
+  ;; Font
+  (set-face-attribute 'default nil
+                      :family "MonoLisa Nerd Font Mono"
+                      :height 150)
+#+end_src
+
+** Modeline
+
+=doom-modeline= provides a clean, informative status bar at the bottom of each
+window. It shows a dot/icon when the buffer has unsaved changes, plus the file
+path, git branch, LSP status, and diagnostics count.
+
+Requires =nerd-icons= for the file type icons and modified indicator.
+
+#+begin_src emacs-lisp
+  (use-package nerd-icons
+    :ensure t)
+
+  (use-package doom-modeline
+    :ensure t
+    :demand t
+    :init
+    (setq doom-modeline-buffer-modification-icon t  ; show dot for unsaved
+          doom-modeline-buffer-file-name-style 'relative-from-project
+          doom-modeline-height 30
+          doom-modeline-vcs-max-length 20)
+    :config
+    (doom-modeline-mode 1))
+#+end_src
+
+** Theme
+
+Catppuccin Mocha -- the darkest variant of the Catppuccin palette.
+
+#+begin_src emacs-lisp
+  (use-package catppuccin-theme
+    :ensure t
+    :config
+    (setq catppuccin-flavor 'mocha)
+    (load-theme 'catppuccin :no-confirm))
+#+end_src
+
+** Bell
+
+Disable the audible bell entirely.
+
+#+begin_src emacs-lisp
+  (setq ring-bell-function #'ignore)
+#+end_src
+
+** Line Numbers
+
+Show relative line numbers globally -- useful for evil motions like =5j= or =12k=.
+
+#+begin_src emacs-lisp
+  (setq display-line-numbers-type 'relative)
+  (global-display-line-numbers-mode 1)
+#+end_src
+
+** Scrolling
+
+Keep some context lines visible when scrolling, and avoid the jarring
+half-screen jumps.
+
+#+begin_src emacs-lisp
+  (setq scroll-margin 8
+        scroll-conservatively 101)
+#+end_src
+
+** Indentation
+
+Spaces over tabs, 4 spaces wide by default. Ruby and JS/TS override to 2
+spaces to match community conventions.
+
+#+begin_src emacs-lisp
+  (setq-default indent-tabs-mode nil
+                tab-width 4)
+
+  ;; Ruby -- 2 spaces
+  (add-hook 'ruby-mode-hook   (lambda () (setq-local tab-width 2)))
+  (add-hook 'ruby-ts-mode-hook (lambda () (setq-local tab-width 2)))
+
+  ;; JavaScript / TypeScript -- 2 spaces
+  (setq js-indent-level 2)
+  (setq typescript-ts-mode-indent-offset 2)
+  (add-hook 'js-ts-mode-hook   (lambda () (setq-local tab-width 2)))
+  (add-hook 'tsx-ts-mode-hook  (lambda () (setq-local tab-width 2
+                                                       typescript-ts-mode-indent-offset 2)))
+
+  ;; CSS -- 2 spaces
+  (setq css-indent-offset 2)
+#+end_src
+
+** Backups and Autosaves
+
+Keep backup files out of project directories. Disable auto-save entirely --
+we save manually.
+
+#+begin_src emacs-lisp
+  (setq backup-directory-alist
+        `(("." . ,(expand-file-name "backups/" user-emacs-directory))))
+
+  (make-directory (expand-file-name "backups/" user-emacs-directory) t)
+
+  ;; Disable auto-save
+  (setq auto-save-default nil)
+#+end_src
+
+** Miscellaneous
+
+Small quality-of-life settings that don't warrant their own section.
+
+#+begin_src emacs-lisp
+  (delete-selection-mode 1)           ; typing replaces selected text
+  (prefer-coding-system 'utf-8)      ; UTF-8 everywhere
+  (set-default-coding-systems 'utf-8)
+  (setq use-short-answers t)         ; y/n instead of yes/no
+  (show-paren-mode 1)                ; highlight matching parens
+  (global-auto-revert-mode 1)        ; reload files changed on disk
+#+end_src
+
+** PATH from Shell
+
+GUI Emacs on macOS doesn't inherit your shell's =PATH=. This package copies
+=PATH= and other environment variables from your shell so tools like =node=,
+=git=, =rg=, and asdf shims are found.
+
+#+begin_src emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :demand t
+    :config
+    (exec-path-from-shell-initialize))
+#+end_src
+
+* Evil Mode
+
+Vim emulation. =evil-want-keybinding= is set to =nil= so that =evil-collection=
+can provide bindings for non-editing buffers (dired, magit, help, etc.).
+
+#+begin_src emacs-lisp
+  (use-package evil
+    :ensure t
+    :demand t
+    :init
+    (setq evil-want-integration t
+          evil-want-keybinding nil
+          evil-want-C-u-scroll t
+          evil-want-C-d-scroll t
+          evil-undo-system 'undo-redo)
+    :config
+    (evil-mode 1))
+#+end_src
+
+** Evil Collection
+
+Extends evil bindings to dozens of modes so you rarely need to drop back to
+Emacs-style keys.
+
+#+begin_src emacs-lisp
+  (use-package evil-collection
+    :ensure t
+    :demand t
+    :after evil
+    :config
+    (evil-collection-init))
+#+end_src
+
+** Leader Key (=SPC=)
+
+Use =general.el= to define =SPC= as a leader key in evil normal and visual
+states. Press =SPC= and which-key will show all available sub-menus.
+
+| Key         | Command                   |
+|-------------+---------------------------|
+| =SPC f f=   | Find file                 |
+| =SPC f r=   | Recent files              |
+| =SPC b b=   | Switch buffer             |
+| =SPC b d=   | Kill buffer               |
+| =SPC g g=   | Magit status              |
+| =SPC p p=   | Switch project            |
+| =SPC p f=   | Find file in project      |
+| =SPC p g=   | Grep in project           |
+| =SPC s s=   | Search lines (consult)    |
+| =SPC s g=   | Ripgrep                   |
+| =SPC w= ... | Window management         |
+| =SPC h= ... | Help                      |
+| =SPC q q=   | Quit Emacs                |
+
+#+begin_src emacs-lisp
+  (use-package general
+    :ensure (:wait t)
+    :demand t
+    :config
+    (general-create-definer my/leader-keys
+      :keymaps '(normal visual emacs)
+      :prefix "SPC"
+      :global-prefix "C-SPC")
+
+    (my/leader-keys
+      ;; Top-level shortcuts
+      "SPC" '(execute-extended-command :wk "M-x")
+      "."   '(find-file :wk "Find file")
+      ","   '(consult-buffer :wk "Switch buffer")
+
+      ;; Files
+      "f"   '(:ignore t :wk "File")
+      "f f" '(find-file :wk "Find file")
+      "f r" '(consult-recent-file :wk "Recent files")
+      "f s" '(save-buffer :wk "Save file")
+
+      ;; Buffers
+      "b"   '(:ignore t :wk "Buffer")
+      "b b" '(consult-buffer :wk "Switch buffer")
+      "b d" '(kill-current-buffer :wk "Kill buffer")
+      "b n" '(next-buffer :wk "Next buffer")
+      "b p" '(previous-buffer :wk "Previous buffer")
+      "b l" '(ibuffer :wk "List buffers")
+
+      ;; Git
+      "g"   '(:ignore t :wk "Git")
+      "g g" '(magit-status :wk "Magit status")
+      "g l" '(magit-log-current :wk "Git log")
+      "g b" '(magit-blame :wk "Git blame")
+
+      ;; Project
+      "p"   '(:ignore t :wk "Project")
+      "p p" '(project-switch-project :wk "Switch project")
+      "p f" '(project-find-file :wk "Find file in project")
+      "p g" '(project-find-regexp :wk "Grep in project")
+      "p b" '(project-switch-to-buffer :wk "Project buffer")
+      "p d" '(project-find-dir :wk "Find directory")
+
+      ;; Search
+      "s"   '(:ignore t :wk "Search")
+      "s s" '(consult-line :wk "Search lines")
+      "s g" '(consult-ripgrep :wk "Ripgrep")
+      "s l" '(consult-goto-line :wk "Go to line")
+
+      ;; Windows
+      "w"   '(:ignore t :wk "Window")
+      "w v" '(evil-window-vsplit :wk "Vertical split")
+      "w s" '(evil-window-split :wk "Horizontal split")
+      "w d" '(evil-window-delete :wk "Close window")
+      "w h" '(evil-window-left :wk "Window left")
+      "w j" '(evil-window-down :wk "Window down")
+      "w k" '(evil-window-up :wk "Window up")
+      "w l" '(evil-window-right :wk "Window right")
+      "w w" '(evil-window-next :wk "Next window")
+
+      ;; LSP
+      "l"   '(:ignore t :wk "LSP")
+      "l d" '(lsp-find-definition :wk "Go to definition")
+      "l r" '(lsp-find-references :wk "Find references")
+      "l R" '(lsp-rename :wk "Rename symbol")
+      "l a" '(lsp-execute-code-action :wk "Code action")
+      "l f" '(lsp-format-buffer :wk "Format buffer")
+
+      ;; Help (uses helpful.el for richer output)
+      "h"   '(:ignore t :wk "Help")
+      "h f" '(helpful-callable :wk "Describe function")
+      "h v" '(helpful-variable :wk "Describe variable")
+      "h k" '(helpful-key :wk "Describe key")
+      "h m" '(describe-mode :wk "Describe mode")
+
+      ;; Terminal
+      "t"   '(:ignore t :wk "Terminal")
+      "t t" '(vterm :wk "Open vterm")
+
+      ;; Quit
+      "q"   '(:ignore t :wk "Quit")
+      "q q" '(save-buffers-kill-terminal :wk "Quit Emacs")))
+#+end_src
+
+* Which-Key
+
+Displays a popup with available keybindings after a short delay. Invaluable
+while learning Emacs -- press a prefix key (like =C-x=) and wait 0.3 seconds
+to see what's available.
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :ensure t
+    :demand t
+    :init
+    (setq which-key-idle-delay 0.3
+          which-key-separator " -> ")
+    :config
+    (which-key-mode 1))
+#+end_src
+
+* Completion (Vertico Stack)
+
+Modern, modular completion framework built on Emacs' native =completing-read=.
+The stack is four packages that each do one thing well:
+
+- *Vertico* -- vertical completion UI
+- *Orderless* -- space-separated fuzzy/out-of-order matching
+- *Marginalia* -- rich annotations in the minibuffer (file sizes, docstrings, etc.)
+- *Consult* -- enhanced commands (find file, ripgrep, buffer switch, line search)
+
+** Vertico
+
+Renders completion candidates in a vertical list in the minibuffer.
+
+#+begin_src emacs-lisp
+  (use-package vertico
+    :ensure t
+    :init
+    (vertico-mode 1)
+    :config
+    (setq vertico-cycle t))
+#+end_src
+
+** Orderless
+
+Completion style that matches space-separated components in any order.
+Typing =init el= matches =init.el=, =el-init.org=, etc.
+
+#+begin_src emacs-lisp
+  (use-package orderless
+    :ensure t
+    :config
+    (setq completion-styles '(orderless basic)
+          completion-category-overrides '((file (styles basic partial-completion)))))
+#+end_src
+
+** Marginalia
+
+Adds annotations next to completion candidates -- file permissions, buffer
+modes, command keybindings, docstrings.
+
+#+begin_src emacs-lisp
+  (use-package marginalia
+    :ensure t
+    :init
+    (marginalia-mode 1))
+#+end_src
+
+** Corfu (In-buffer Completion)
+
+Lightweight completion popup that uses Emacs' built-in =completion-at-point=
+(capf). Works seamlessly with lsp-mode, which feeds completions through capf.
+
+Corfu provides the popup; =cape= adds extra completion-at-point backends
+(file paths, dabbrev, keywords) that supplement what the LSP server offers.
+
+#+begin_src emacs-lisp
+  (use-package corfu
+    :ensure t
+    :demand t
+    :init
+    (setq corfu-auto t               ; show popup automatically
+          corfu-auto-delay 0.2        ; after 0.2s of idle typing
+          corfu-auto-prefix 2         ; after 2 characters
+          corfu-cycle t               ; wrap around at ends
+          corfu-preselect 'prompt     ; don't auto-select first candidate
+          completion-cycle-threshold nil
+          tab-always-indent 'complete) ; TAB completes when already indented
+    :config
+    (global-corfu-mode 1)
+    (corfu-popupinfo-mode 1)
+    (setq corfu-popupinfo-delay '(0.5 . 0.2))
+
+    ;; Navigate corfu popup
+    (define-key corfu-map (kbd "C-n") #'corfu-next)
+    (define-key corfu-map (kbd "C-p") #'corfu-previous)
+    (define-key corfu-map (kbd "C-y") #'corfu-insert)
+    (define-key corfu-map (kbd "RET") #'corfu-insert)
+    (define-key corfu-map (kbd "C-e") #'corfu-quit)
+
+    ;; Quit corfu when leaving insert state
+    (add-hook 'evil-insert-state-exit-hook #'corfu-quit))
+
+  ;; Prevent evil C-n/C-p from overriding corfu in insert state
+  (with-eval-after-load 'evil
+    (setq evil-complete-next-func nil
+          evil-complete-previous-func nil))
+#+end_src
+
+** Consult
+
+Provides enhanced versions of common commands. Key bindings:
+
+| Key         | Command                | What it does                        |
+|-------------+------------------------+-------------------------------------|
+| =C-x b=    | =consult-buffer=       | Switch buffer (with preview)        |
+| =C-x p f=  | =consult-find=         | Fuzzy find file in project          |
+| =C-s=      | =consult-line=         | Search lines in current buffer      |
+| =M-s g=    | =consult-ripgrep=      | Live ripgrep across project         |
+| =M-g g=    | =consult-goto-line=    | Go to line                          |
+
+#+begin_src emacs-lisp
+  (use-package consult
+    :ensure t
+    :bind
+    (("C-x b"   . consult-buffer)
+     ("C-s"     . consult-line)
+     ("M-s g"   . consult-ripgrep)
+     ("M-g g"   . consult-goto-line)
+     ("M-g M-g" . consult-goto-line)))
+#+end_src
+
+* Projects
+
+Using the built-in =project.el=. It auto-detects projects via =.git= roots.
+
+Key bindings (all under =C-x p= prefix):
+
+| Key       | Command               | What it does                     |
+|-----------+-----------------------+----------------------------------|
+| =C-x p f= | =project-find-file=   | Fuzzy find file in project       |
+| =C-x p g= | =project-find-regexp= | Grep across project              |
+| =C-x p b= | =project-switch-to-buffer= | Switch to project buffer    |
+| =C-x p p= | =project-switch-project=   | Switch to another project   |
+| =C-x p d= | =project-find-dir=   | Find directory in project        |
+| =C-x p s= | =project-shell=      | Open shell in project root       |
+
+#+begin_src emacs-lisp
+  (use-package project
+    :ensure nil
+    :config
+    (setq project-switch-commands '((project-find-file "Find file")
+                                    (project-find-regexp "Find regexp")
+                                    (project-find-dir "Find directory")
+                                    (project-eshell "Eshell")
+                                    (magit-project-status "Magit" ?m)))
+    ;; Remember projects under ~/code as project roots
+    (setq project-vc-extra-root-markers '(".projectile" ".project" "package.json")))
+#+end_src
+
+* Tree-sitter
+
+Emacs 29+ has built-in tree-sitter support for fast, accurate syntax
+highlighting and structural editing. =treesit-auto= automatically installs
+grammars on first use and remaps classic major modes to their =-ts-mode=
+counterparts (e.g. =typescript-mode= -> =typescript-ts-mode=).
+
+#+begin_src emacs-lisp
+  (use-package treesit-auto
+    :ensure t
+    :demand t
+    :config
+    (setq treesit-auto-install 'prompt)
+    (treesit-auto-add-to-auto-mode-alist 'all)
+    (global-treesit-auto-mode 1))
+#+end_src
+
+* LSP (Language Server Protocol)
+
+** lsp-mode
+
+Full-featured LSP client. Starts the appropriate language server automatically
+when you open a supported file. Use =M-x lsp-install-server= to install
+servers for your languages.
+
+The hook list includes tree-sitter modes so LSP starts for both classic and
+=-ts-mode= buffers.
+
+#+begin_src emacs-lisp
+  (use-package lsp-mode
+    :ensure t
+    :init
+    (setq lsp-keymap-prefix "C-c l"          ; prefix for all lsp commands
+          lsp-idle-delay 0.500               ; debounce before sending changes
+          lsp-completion-provider :capf      ; use completion-at-point (works with corfu)
+          lsp-completion-show-detail t       ; show detail in completion popup
+          lsp-completion-show-kind t)        ; show kind (function, variable, etc.)
+    :hook
+    ((prog-mode          . lsp-deferred)
+     (typescript-ts-mode . lsp-deferred)
+     (tsx-ts-mode        . lsp-deferred)
+     (js-ts-mode         . lsp-deferred)
+     (json-ts-mode       . lsp-deferred)
+     (css-ts-mode        . lsp-deferred)
+     (html-ts-mode       . lsp-deferred)
+     (python-ts-mode     . lsp-deferred)
+     (ruby-ts-mode       . lsp-deferred)
+     (bash-ts-mode       . lsp-deferred)
+     (yaml-ts-mode       . lsp-deferred)
+     (rust-ts-mode       . lsp-deferred))
+    :commands (lsp lsp-deferred)
+    :config
+    ;; Make K show LSP hover docs, gd/gr/gi for navigation
+    (evil-define-key 'normal lsp-mode-map
+      "gd" #'lsp-find-definition
+      "gr" #'lsp-find-references
+      "gi" #'lsp-find-implementation)
+
+    ;; Override evil's K (man lookup) globally to use LSP when available
+    (setq evil-lookup-func
+          (lambda ()
+            (if (bound-and-true-p lsp-mode)
+                (lsp-describe-thing-at-point)
+              (man (Man-default-man-entry))))))
+#+end_src
+
+** lsp-ui
+
+UI enhancements on top of lsp-mode: sideline diagnostics, doc popups, peek
+definitions.
+
+#+begin_src emacs-lisp
+  (use-package lsp-ui
+    :ensure t
+    :after lsp-mode
+    :config
+    (setq lsp-ui-doc-enable t
+          lsp-ui-doc-position 'at-point
+          lsp-ui-doc-delay 0.5
+          lsp-ui-sideline-enable t
+          lsp-ui-sideline-show-diagnostics t
+          lsp-ui-sideline-show-hover nil))
+#+end_src
+
+** Flycheck (Inline Diagnostics)
+
+Syntax checking and inline diagnostics. =lsp-mode= pushes errors and warnings
+through flycheck automatically. You'll see squiggly underlines in the buffer
+and a summary in the modeline.
+
+| Key       | Command                     |
+|-----------+-----------------------------|
+| =C-c ! l= | List all errors             |
+| =C-c ! n= | Jump to next error          |
+| =C-c ! p= | Jump to previous error      |
+
+#+begin_src emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :demand t
+    :config
+    (global-flycheck-mode 1)
+
+    ;; Disable standalone checkers that are redundant when LSP is active.
+    ;; LSP servers (ruby-lsp, ts-ls) already provide diagnostics.
+    (setq-default flycheck-disabled-checkers
+                  '(ruby-rubocop
+                    ruby-standard
+                    ruby-reek
+                    ruby-rubylint
+                    javascript-eslint)))
+#+end_src
+
+Also tell lsp-mode to prefer flycheck over the built-in flymake:
+
+#+begin_src emacs-lisp
+  (setq lsp-diagnostics-provider :flycheck)
+#+end_src
+
+* Git
+
+** Transient
+
+Magit requires a newer version of transient than what ships with Emacs 29.
+Install it explicitly so magit picks it up.
+
+#+begin_src emacs-lisp
+  (use-package transient :ensure t)
+#+end_src
+
+** Magit
+
+A complete Git porcelain inside Emacs. Open it with =C-x g= (or =SPC g g= if
+you set up a leader key). Stage hunks, commit, rebase, merge, push -- all
+without leaving Emacs.
+
+#+begin_src emacs-lisp
+  (use-package magit
+    :ensure t
+    :bind ("C-x g" . magit-status)
+    :config
+    ;; Wrap long lines in magit buffers so diffs are fully visible
+    (add-hook 'magit-diff-mode-hook #'visual-line-mode)
+    (add-hook 'magit-status-mode-hook #'visual-line-mode))
+#+end_src
+
+** diff-hl (Git Gutter)
+
+Shows added, modified, and deleted lines in the fringe. Integrates with magit
+so the gutter updates after staging/unstaging.
+
+#+begin_src emacs-lisp
+  (use-package diff-hl
+    :ensure t
+    :demand t
+    :config
+    (global-diff-hl-mode 1)
+    (diff-hl-flydiff-mode 1)           ; update gutter without saving
+    :hook
+    (magit-pre-refresh  . diff-hl-magit-pre-refresh)
+    (magit-post-refresh . diff-hl-magit-post-refresh))
+#+end_src
+
+* Terminal
+
+** vterm
+
+A full terminal emulator inside Emacs, powered by libvterm. Much faster and
+more compatible than =term= or =ansi-term=. Useful for running CLI tools like
+=opencode= without leaving Emacs.
+
+Requires =cmake= and =libtool= to compile the native module on first install.
+On macOS: =brew install cmake libtool=.
+
+#+begin_src emacs-lisp
+  (use-package vterm
+    :ensure t
+    :config
+    (setq vterm-max-scrollback 10000
+          vterm-kill-buffer-on-exit t))
+#+end_src
+
+* AI
+
+** Copilot
+
+Inline code completions (ghost text) powered by GitHub Copilot. Requires a
+GitHub Copilot subscription. On first use, run =M-x copilot-login= to
+authenticate.
+
+Accept a suggestion with =TAB=, dismiss with =C-g=, cycle with =M-]= / =M-[=.
+
+#+begin_src emacs-lisp
+  (use-package copilot
+    :ensure (:host github :repo "copilot-emacs/copilot.el"
+             :files ("*.el"))
+    :hook (prog-mode . copilot-mode)
+    :bind (:map copilot-completion-map
+           ("<tab>"   . copilot-accept-completion)
+           ("TAB"     . copilot-accept-completion)
+           ("M-]"     . copilot-next-completion)
+           ("M-["     . copilot-previous-completion)
+           ("C-g"     . copilot-clear-overlay))
+    :config
+    ;; Auto-install the language server if not present
+    (unless (copilot-installed-version)
+      (copilot-install-server)))
+#+end_src
+
+* Editing Niceties
+
+** Rainbow Delimiters
+
+Color-codes nested parentheses, brackets, and braces so matching pairs are
+visually obvious. Especially helpful in elisp and deeply nested JSON.
+
+#+begin_src emacs-lisp
+  (use-package rainbow-delimiters
+    :ensure t
+    :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+
+** Helpful
+
+Replacements for the built-in =*Help*= buffers with more contextual
+information -- source code, references, and better formatting.
+
+#+begin_src emacs-lisp
+  (use-package helpful
+    :ensure t
+    :bind
+    (("C-h f" . helpful-callable)
+     ("C-h v" . helpful-variable)
+     ("C-h k" . helpful-key)
+     ("C-h x" . helpful-command)))
+#+end_src
+
+* Org Mode
+
+** Org Bullets
+
+Replace the =*= heading markers with nicer Unicode bullets.
+
+#+begin_src emacs-lisp
+  (use-package org-bullets
+    :ensure t
+    :hook (org-mode . org-bullets-mode))
+#+end_src
